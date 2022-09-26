@@ -1,5 +1,6 @@
 package caixeiro_viajante;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -17,7 +18,7 @@ public class Individual {
             this.genes[i] = -1;
         }
     }
-
+    
     public void setGene(int posicao, int gene) {
         this.genes[posicao] = gene;
     }
@@ -29,7 +30,11 @@ public class Individual {
     public int getSize() {
         return size;
     }
-
+    
+    public int getGene(int index) {
+        return genes[index];
+    }
+    
     public void printIndividuo() {
         for (Integer gene : this.genes) {
             System.out.print(gene + "\t");
