@@ -10,6 +10,7 @@ import java.util.Random;
 public class Population {
 
     private final Random random;
+    
     public Population() {
         this.random = new Random(System.nanoTime());
     }
@@ -24,4 +25,11 @@ public class Population {
         }
     } 
     
+    public void printPopulation(ArrayList<Individual> populacao) {
+    	 for(int i=0; i<populacao.size();i++){
+             System.out.println(Arrays.toString(populacao.get(i).getGenes()));
+         }
+    }
+    
+
 }

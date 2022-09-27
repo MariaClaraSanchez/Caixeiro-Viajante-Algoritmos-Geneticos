@@ -1,6 +1,7 @@
 package caixeiro_viajante;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -41,5 +42,5 @@ public class Individual {
         }
         System.out.println("");
     }
-
+   
 }
