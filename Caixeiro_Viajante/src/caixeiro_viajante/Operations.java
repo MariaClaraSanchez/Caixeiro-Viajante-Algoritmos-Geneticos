@@ -33,4 +33,22 @@ public class Operations {
         	}
         }
 	}
+	
+	public void CallMutation(int qntC,int KGenes, int KMutacao, ArrayList<Individual> populacao){
+		Random random = new Random();
+        int num;
+        Individual mutacao = new Individual(KGenes);
+        int kIndividuos = populacao.size();
+        
+        for (int i = 0; i < qntC; i++) {
+        	num = random.nextInt(kIndividuos);
+        	if(num+1 < populacao.size()) {
+            	int[] aux = populacao.get(num+1).getGenes();
+            	mutacao = genetic.mutation(aux,KGenes,KMutacao);
+            	populacao.add(num+1, mutacao);
+            	populacao.remove(num+2);
+        	}
+        	
+        }
+	}
 }
