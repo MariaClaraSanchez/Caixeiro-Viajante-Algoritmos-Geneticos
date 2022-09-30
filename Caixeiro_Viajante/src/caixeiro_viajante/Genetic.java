@@ -52,4 +52,5 @@ public class Genetic {
         return aux;
     }
     
+    
 }

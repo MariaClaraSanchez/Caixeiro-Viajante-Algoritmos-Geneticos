@@ -1,6 +1,7 @@
 package caixeiro_viajante;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Operations {
@@ -51,4 +52,98 @@ public class Operations {
         	
         }
 	}
+	
+	public ArrayList<Individual> CallSelection() {
+		ArrayList<Individual> populacaoSelecionada = new ArrayList<>();
+		
+		return populacaoSelecionada;
+	}
+
+	
+    public static List<Integer> FindAdjacentVertex(int graph[][], int CurrentPosition) {
+
+        List<Integer> vertices = new ArrayList<Integer>();
+
+        for (int i = 0; i < graph.length; i++) {
+        	
+            if (CurrentPosition != i && graph[CurrentPosition][i] != 0) {
+                vertices.add(i);
+            }
+        }
+
+        return vertices;
+    }
+
+    public static boolean AllVerticesTraversed(boolean[] vertices, int size) {
+        int cont = 0;
+        for (int i = 0; i < size; i++) {
+
+            if (vertices[i] == true) {
+                cont++;
+            }
+        }
+        if (cont == size) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    
+    
+    
+	
+	public static void CalculaEsforco(ArrayList<Individual> populacao, int graph[][], int Kgenes) {
+		
+		int Kpopulacao = populacao.size();
+		List<Integer> verticesAdj = new ArrayList<Integer>();
+		int valorGene, somador=0, pos, pos2;
+
+		for(int i=0; i<Kpopulacao; i++) {
+			somador = 0;
+			for(int j=0; j<Kgenes; j++) {
+				verticesAdj = FindAdjacentVertex(graph, populacao.get(i).getGene(j));
+				//System.out.println("Vertices Adjacentes: " + verticesAdj);
+				if(j+1 == Kgenes) {
+					pos = populacao.get(i).getGene(j);					
+				}
+				else {
+					pos = populacao.get(i).getGene(j+1);	
+					if(verticesAdj.contains(pos)) {
+						if(pos == Kgenes) {
+							pos2 = populacao.get(i).getGene(0);
+							somador += graph[populacao.get(i).getGene(j)][pos];
+						}
+						somador += graph[populacao.get(i).getGene(j)][pos];
+					}
+					else {
+						populacao.get(i).setEsforco(-1);
+						break;
+					}					
+				}
+				
+			}
+			if(populacao.get(i).getEsforco() != -1) {
+				populacao.get(i).setEsforco(somador);
+			}
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

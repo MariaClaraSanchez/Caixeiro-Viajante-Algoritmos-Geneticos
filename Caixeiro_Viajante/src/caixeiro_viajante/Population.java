@@ -30,6 +30,11 @@ public class Population {
              System.out.println(Arrays.toString(populacao.get(i).getGenes()));
          }
     }
+    public void printEsforco(ArrayList<Individual> populacao) {
+   	 for(int i=0; i<populacao.size();i++){
+            System.out.println(populacao.get(i).getEsforco());
+        }
+   }
     
 
 }

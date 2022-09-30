@@ -22,11 +22,18 @@ public class Caixeiro_Viajante {
             }
             System.out.println();
         }
+        
+        /*Vertices visitados*/
+
+        boolean[] vertices = new boolean[graph.length];
+        for (int i = 0; i < graph.length; i++) {
+            vertices[i] = false;
+        }
     	
     	
         
         /* ************ Geração da População ************ */
-        int kIndividuos = graph.length;
+        int kIndividuos = 20;
         int KGenes = graph.length;
         
         /*Criação da População*/
@@ -36,7 +43,7 @@ public class Caixeiro_Viajante {
         
         for (int i = 0; i < kIndividuos; i++) {
             Individual individuo = new Individual(KGenes);
-            controle.criarIndividuoAleatorio(individuo);
+            controle.criarIndividuoAleatorio(individuo); 
             populacao.add(individuo);
         }
 
@@ -63,6 +70,12 @@ public class Caixeiro_Viajante {
         
         System.out.println("****** Populacao Final: *****");
         controle.printPopulation(populacao);
+        
+        System.out.println("****** Calculando Esforco *****");
+        operations.CalculaEsforco(populacao, graph, KGenes);
+        controle.printEsforco(populacao);
+        
+
     }
 
 }
