@@ -22,18 +22,10 @@ public class Caixeiro_Viajante {
             }
             System.out.println();
         }
-        
-        /*Vertices visitados*/
 
-        boolean[] vertices = new boolean[graph.length];
-        for (int i = 0; i < graph.length; i++) {
-            vertices[i] = false;
-        }
     	
-    	
-        
         /* ************ Geração da População ************ */
-        int kIndividuos = 20;
+        int kIndividuos = 10;
         int KGenes = graph.length;
         
         /*Criação da População*/
@@ -57,9 +49,12 @@ public class Caixeiro_Viajante {
         int qntC = 1;
         int ponto = 3;
         
+        
         System.out.println("Populacao antes: " + populacao.size());
         operations.CallCrossover(qntC,ponto,KGenes,populacao);
         System.out.println("Populacao depois: " + populacao.size());
+        
+        /* Mutacão */
         
         int KMutacao = 2;
    
@@ -71,11 +66,26 @@ public class Caixeiro_Viajante {
         System.out.println("****** Populacao Final: *****");
         controle.printPopulation(populacao);
         
-        System.out.println("****** Calculando Esforco *****");
-        operations.CalculaEsforco(populacao, graph, KGenes);
+        
+        /* Seleção */
+       
+        
+        System.out.println("****** Seleção *****");
+        ArrayList<Individual> novaPopulacao = new ArrayList<>();
+        
+        populacao = operations.CalculaEsforco(populacao, graph, KGenes);
+        System.out.println("****** Esforço *****");
         controle.printEsforco(populacao);
         
-
+        Genetic ge = new Genetic();
+        
+        populacao = ge.selecao(populacao, 3, KGenes);
+        
+        
+        System.out.println("Populacao antes: " + populacao.size());
+        System.out.println("****** Populacao Final: *****");
+        controle.printPopulation(populacao);        
+        System.out.println("Populacao depois: " + populacao.size());
     }
 
 }
