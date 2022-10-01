@@ -151,30 +151,27 @@ public class Operations {
 
 	public static void printShowPath(ArrayList<Individual> populacao) {
 		int tam = populacao.size();
-		int menor = -3;
-		int valor=0;
+		int menor;
+		int valor = 0;
 		int pos = 0;
-
-		/*for (int i = 0; i < tam; i++) {
+		
+		menor = populacao.get(0).getEsforco();
+		for (int i = 1; i < tam; i++) {
 			valor = populacao.get(i).getEsforco();
-			if (valor == -1) {
-				break;
-			} else {
-				if (valor >= menor) {
-					menor = valor;
-					pos = i;
-				}
+			if ((valor <= menor) && valor!=-1) {
+				menor = valor;
+				pos = i;
 			}
-		}*/
-		
-		if(valor == -1) {
-			System.out.printf("Nenhum Caminho ótimo foi encontrado!!");
-		}else {
-			System.out.printf("Melhor Caminho é: " + Arrays.toString(populacao.get(pos).getGenes()));	
-			System.out.printf("\nEsforço: " + populacao.get(pos).getEsforco());
 		}
-		
 
+	if(pos==0){
+		System.out.printf("Nenhum Caminho ótimo foi encontrado!!");
 	}
+	else{
+		System.out.printf("Melhor Caminho é: " + Arrays.toString(populacao.get(pos).getGenes()));
+		System.out.printf("\nEsforço: " + populacao.get(pos).getEsforco());
+	}
+
+}
 
 }

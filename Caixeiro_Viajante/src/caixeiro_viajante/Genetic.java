@@ -50,11 +50,12 @@ public class Genetic {
 	}
 
 	public ArrayList<Individual> select(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
+		Random random = new Random();
 		ArrayList<Individual> popSelecionada = new ArrayList<Individual>();
 		Individual indAux = new Individual(Kgenes);
 
 		int melhorEsforco;
-		int esforco, pos;
+		int esforco, pos=0;
 		int tamPop = populacao.size();
 		int cont = 0;
 
@@ -67,11 +68,10 @@ public class Genetic {
 			for (int i = 0; i < tamPop; i++) {
 				esforco = populacao.get(i).getEsforco();
 				if (esforco == -1) {
-					melhorEsforco = 10000;
 					continue;
 				}
 				else {
-					if (esforco <= melhorEsforco) {
+					if ((esforco <= melhorEsforco) && (esforco!=1)) {
 						melhorEsforco = esforco;
 						pos = i;
 					}
@@ -79,13 +79,26 @@ public class Genetic {
 
 			}
 			
-			indAux = populacao.get(pos);
-			popSelecionada.add(indAux);
-			populacao.remove(pos);
-			indAux = null;
-			cont++;
-
+			if(pos == 0) {
+				pos = random.nextInt(tamPop);
+				indAux = populacao.get(pos);
+				popSelecionada.add(indAux);
+				populacao.remove(pos);
+				indAux = null;
+				cont++;
+				
+			}else {
+				indAux = populacao.get(pos);
+				popSelecionada.add(indAux);
+				populacao.remove(pos);
+				indAux = null;
+				cont++;
+			}
+			
 		}
+
+		System.out.println("Quantidade de Individuos Selecionados: " + popSelecionada.size());
+		//System.out.println("Individuo Selecionado: " + Arrays.toString(populacao.get(pos).getGenes()));
 
 		return popSelecionada;
 

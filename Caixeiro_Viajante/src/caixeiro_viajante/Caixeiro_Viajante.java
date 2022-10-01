@@ -25,9 +25,9 @@ public class Caixeiro_Viajante {
 
     	
         /* ************ Geração da População ************ */
-        int kIndividuos = 100;
+        int kIndividuos = 10000;
         int KGenes = graph.length;
-        int KVezes = 2;
+        int KVezes = 10;
         int qntC = 1;
         int ponto = 3;
         int KMutacao = 2;
@@ -60,19 +60,23 @@ public class Caixeiro_Viajante {
             System.out.println("********* Cruzamento **********");
             
             operations.CallCrossover(qntC,ponto,KGenes,populacao);
+            System.out.println("****** Populacao Após a Cruzamento: *****");
+            controle.printPopulation(populacao); 
             
             /* Mutacão */
             operations.CallMutation(qntC, KGenes, KMutacao, populacao);
             
+            System.out.println("****** Populacao Após a mutação: *****");
+            controle.printPopulation(populacao); 
+            
             /* Seleção */
-            ArrayList<Individual> novaPopulacao = new ArrayList<>();
      
             populacao = operations.CalculaEsforco(populacao, graph, KGenes);
             System.out.println("****** Esforço *****");
             controle.printEsforco(populacao);
             
             System.out.println("\n****** Seleção ******");
-            operations.CallSelection(populacao, kSelecao, KGenes);
+            populacao = operations.CallSelection(populacao, kSelecao, KGenes);
             
             System.out.println("****** Populacao Após a Seleção: *****");
             controle.printPopulation(populacao); 
@@ -83,6 +87,10 @@ public class Caixeiro_Viajante {
                 controle.criarIndividuoAleatorio(individuo); 
                 populacao.add(individuo);
             }
+            
+            populacao = operations.CalculaEsforco(populacao, graph, KGenes);
+            System.out.println("****** Esforço *****");
+            controle.printEsforco(populacao);
             
             System.out.println("****** Populacao Final: *****");
             controle.printPopulation(populacao);        
