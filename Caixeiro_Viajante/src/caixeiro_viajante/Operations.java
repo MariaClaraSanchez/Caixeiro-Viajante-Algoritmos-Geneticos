@@ -1,6 +1,7 @@
 package caixeiro_viajante;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -54,10 +55,10 @@ public class Operations {
 		}
 	}
 
-	public ArrayList<Individual> CallSelection() {
-		ArrayList<Individual> populacaoSelecionada = new ArrayList<>();
+	public ArrayList<Individual> CallSelection(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
+		Genetic sel = new Genetic();
 
-		return populacaoSelecionada;
+		return sel.select(populacao, KSelecao, Kgenes);
 	}
 
 	public static List<Integer> FindAdjacentVertex(int graph[][], int CurrentPosition) {
@@ -146,6 +147,34 @@ public class Operations {
 		}
 
 		return populacao;
+	}
+
+	public static void printShowPath(ArrayList<Individual> populacao) {
+		int tam = populacao.size();
+		int menor = -3;
+		int valor=0;
+		int pos = 0;
+
+		/*for (int i = 0; i < tam; i++) {
+			valor = populacao.get(i).getEsforco();
+			if (valor == -1) {
+				break;
+			} else {
+				if (valor >= menor) {
+					menor = valor;
+					pos = i;
+				}
+			}
+		}*/
+		
+		if(valor == -1) {
+			System.out.printf("Nenhum Caminho ótimo foi encontrado!!");
+		}else {
+			System.out.printf("Melhor Caminho é: " + Arrays.toString(populacao.get(pos).getGenes()));	
+			System.out.printf("\nEsforço: " + populacao.get(pos).getEsforco());
+		}
+		
+
 	}
 
 }

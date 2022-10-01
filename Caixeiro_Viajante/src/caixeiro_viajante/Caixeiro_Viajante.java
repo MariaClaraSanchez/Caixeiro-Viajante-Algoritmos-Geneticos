@@ -25,10 +25,20 @@ public class Caixeiro_Viajante {
 
     	
         /* ************ Geração da População ************ */
-        int kIndividuos = 10;
+        int kIndividuos = 100;
         int KGenes = graph.length;
+        int KVezes = 2;
+        int qntC = 1;
+        int ponto = 3;
+        int KMutacao = 2;
+        int kSelecao = (int)(0.3*kIndividuos);
+
+    	/*Criação da População pela primeira vez*/
         
-        /*Criação da População*/
+        // Inicio da contagem do tempo
+        
+        long start = System.currentTimeMillis();
+        
         Population controle = new Population();
 
         ArrayList<Individual> populacao = new ArrayList<>();
@@ -38,54 +48,54 @@ public class Caixeiro_Viajante {
             controle.criarIndividuoAleatorio(individuo); 
             populacao.add(individuo);
         }
-
+        
         System.out.println("****** Populacao Inicial: *****");
         controle.printPopulation(populacao);
-
-        /* Cruzamento */
-        System.out.println("********* Cruzamento **********");
+        
         Operations operations = new Operations();
         
-        int qntC = 1;
-        int ponto = 3;
+        for(int i=0; i<KVezes; i++) {
+
+            /* Cruzamento */
+            System.out.println("********* Cruzamento **********");
+            
+            operations.CallCrossover(qntC,ponto,KGenes,populacao);
+            
+            /* Mutacão */
+            operations.CallMutation(qntC, KGenes, KMutacao, populacao);
+            
+            /* Seleção */
+            ArrayList<Individual> novaPopulacao = new ArrayList<>();
+     
+            populacao = operations.CalculaEsforco(populacao, graph, KGenes);
+            System.out.println("****** Esforço *****");
+            controle.printEsforco(populacao);
+            
+            System.out.println("\n****** Seleção ******");
+            operations.CallSelection(populacao, kSelecao, KGenes);
+            
+            System.out.println("****** Populacao Após a Seleção: *****");
+            controle.printPopulation(populacao); 
+            
+            /* Criando novas populações*/
+            for (int j = kSelecao; j < kIndividuos; j++) {
+                Individual individuo = new Individual(KGenes);
+                controle.criarIndividuoAleatorio(individuo); 
+                populacao.add(individuo);
+            }
+            
+            System.out.println("****** Populacao Final: *****");
+            controle.printPopulation(populacao);        
+        }
         
+        long end = System.currentTimeMillis();
+     // Fim da contagem do tempo
         
-        System.out.println("Populacao antes: " + populacao.size());
-        operations.CallCrossover(qntC,ponto,KGenes,populacao);
-        System.out.println("Populacao depois: " + populacao.size());
-        
-        /* Mutacão */
-        
-        int KMutacao = 2;
-   
-        System.out.println("Populacao antes: " + populacao.size());
-        operations.CallMutation(qntC, KGenes, KMutacao, populacao);
-        System.out.println("Populacao depois: " + populacao.size());
-        
-        
-        System.out.println("****** Populacao Final: *****");
-        controle.printPopulation(populacao);
-        
-        
-        /* Seleção */
        
+
+        System.out.printf("Tempo de Execução: %.3f ms%n", (end - start) / 1000d);
         
-        System.out.println("****** Seleção *****");
-        ArrayList<Individual> novaPopulacao = new ArrayList<>();
-        
-        populacao = operations.CalculaEsforco(populacao, graph, KGenes);
-        System.out.println("****** Esforço *****");
-        controle.printEsforco(populacao);
-        
-        Genetic ge = new Genetic();
-        
-        populacao = ge.selecao(populacao, 3, KGenes);
-        
-        
-        System.out.println("Populacao antes: " + populacao.size());
-        System.out.println("****** Populacao Final: *****");
-        controle.printPopulation(populacao);        
-        System.out.println("Populacao depois: " + populacao.size());
+        operations.printShowPath(populacao);
     }
 
 }

@@ -20,7 +20,7 @@ public class Genetic {
 			filho.setGene(i, mae[i]);
 		}
 
-		filho.printIndividuo();
+		//filho.printIndividuo();
 		return filho;
 	}
 
@@ -49,10 +49,9 @@ public class Genetic {
 		return aux;
 	}
 
-	public ArrayList<Individual> selecao(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
+	public ArrayList<Individual> select(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
 		ArrayList<Individual> popSelecionada = new ArrayList<Individual>();
 		Individual indAux = new Individual(Kgenes);
-		//ArrayList<Individual> popAux = new ArrayList<>();
 
 		int melhorEsforco;
 		int esforco, pos;
@@ -62,7 +61,7 @@ public class Genetic {
 		/* Encontrando os melhores esforcos */
 		while(cont!=KSelecao) {
 			pos = 0;
-			melhorEsforco = 10000;
+			melhorEsforco = 10000000;
 			tamPop = populacao.size();
 			
 			for (int i = 0; i < tamPop; i++) {
