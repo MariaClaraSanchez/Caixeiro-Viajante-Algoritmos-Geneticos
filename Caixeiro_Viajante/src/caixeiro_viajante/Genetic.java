@@ -20,7 +20,6 @@ public class Genetic {
 			filho.setGene(i, mae[i]);
 		}
 
-		//filho.printIndividuo();
 		return filho;
 	}
 
@@ -36,7 +35,6 @@ public class Genetic {
 		for (int i = 0; i < size; i++) {
 			aux.setGene(i, individuo[i]);
 		}
-		// aux.printIndividuo();
 
 		for (int i = 0; i < KMutacao; i++) {
 			mutacao = random.nextInt(size);
@@ -55,50 +53,54 @@ public class Genetic {
 		Individual indAux = new Individual(Kgenes);
 
 		int melhorEsforco;
-		int esforco, pos=0;
+		int esforco, pos = 0;
 		int tamPop = populacao.size();
 		int cont = 0;
 
 		/* Encontrando os melhores esforcos */
-		while(cont!=KSelecao) {
+		while (cont != KSelecao) {
 			pos = 0;
-			melhorEsforco = 10000000;
+			melhorEsforco = 1000000000;
 			tamPop = populacao.size();
-			
+
 			for (int i = 0; i < tamPop; i++) {
 				esforco = populacao.get(i).getEsforco();
 				if (esforco == -1) {
 					continue;
-				}
-				else {
-					if ((esforco <= melhorEsforco) && (esforco!=1)) {
+				} else {
+					if ((esforco <= melhorEsforco) && (esforco != 1)) {
 						melhorEsforco = esforco;
 						pos = i;
 					}
 				}
 
 			}
-			
-			if(pos == 0) {
-				pos = random.nextInt(tamPop);
-				indAux = populacao.get(pos);
-				popSelecionada.add(indAux);
-				populacao.remove(pos);
-				indAux = null;
-				cont++;
-				
-			}else {
+			if (pos == 0) {
+				do {
+					pos = random.nextInt(tamPop);
+					esforco = populacao.get(pos).getEsforco();
+					if (esforco == -1) {
+						indAux = populacao.get(pos);
+						popSelecionada.add(indAux);
+						populacao.remove(pos);
+						indAux = null;
+						cont++;
+					}
+
+				} while (esforco != -1);
+			} else {
 				indAux = populacao.get(pos);
 				popSelecionada.add(indAux);
 				populacao.remove(pos);
 				indAux = null;
 				cont++;
 			}
-			
+
 		}
 
-		System.out.println("Quantidade de Individuos Selecionados: " + popSelecionada.size());
-		//System.out.println("Individuo Selecionado: " + Arrays.toString(populacao.get(pos).getGenes()));
+		System.out.println("\nQuantidade de Individuos Selecionados: " + popSelecionada.size());
+		// System.out.println("Individuo Selecionado: " +
+		// Arrays.toString(populacao.get(pos).getGenes()));
 
 		return popSelecionada;
 
