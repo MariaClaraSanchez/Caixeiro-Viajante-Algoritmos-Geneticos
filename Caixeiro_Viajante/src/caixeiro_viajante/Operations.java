@@ -12,11 +12,50 @@ public class Operations {
 	public Operations() {
 		this.genetic = new Genetic();
 	}
+	
+	public ArrayList<Individual> CallAll(Population controle,ArrayList<Individual> populacao,int kIndividuos, int KGenes,int KVezes, int qntCruzamento, int ponto, int KMutacao, int kSelecao, int graphMax[][]) {
+		
+		/* Criacaoo da Populacao pela primeira vez */
+		
+		for (int i = 0; i < kIndividuos; i++) {
+			Individual individuo = new Individual(KGenes);
+			controle.criarIndividuoAleatorio(individuo);
+			populacao.add(individuo);
+		}
+
+		System.out.println("****** Populacao Inicial: *****");
+		controle.printPopulation(populacao);
+
+		for (int i = 0; i < KVezes; i++) {
+
+			System.out.println("********* Geracao: " + i + " **********");
+
+			/* Cruzamento */
+			CallCrossover(qntCruzamento, ponto, KGenes, populacao);
+
+			/* MutaÃ§Ã£o */
+			CallMutation(qntCruzamento, KGenes, KMutacao, populacao);
+
+			/* SeleÃ§Ã£o*/
+
+			populacao = CalculaEsforco(populacao, graphMax, KGenes);
+			populacao = CallSelection(populacao, kSelecao, KGenes);
+
+			if (i != KVezes - 1) {
+				/* Criando novas populaÃ§Ãµes */
+				for (int j = kSelecao; j < kIndividuos; j++) {
+					Individual individuo = new Individual(KGenes);
+					controle.criarIndividuoAleatorio(individuo);
+					populacao.add(individuo);
+				}
+			}
+		}
+		return populacao;
+	}
 
 	public void CallCrossover(int qntC, int ponto, int KGenes, ArrayList<Individual> populacao) {
 		Random random = new Random();
 		int numPai, numMae;
-		Individual filho = new Individual(KGenes);
 		int kIndividuos = populacao.size();
 
 		for (int i = 0; i < qntC; i++) {
@@ -32,11 +71,11 @@ public class Operations {
 			int[] mae = populacao.get(numMae).getGenes();
 			// System.out.println("Mae:" +
 			// Arrays.toString(populacao.get(num+1).getGenes()));
-
-			filho = genetic.crossover(pai, mae, filho, ponto);
-
-			populacao.add(filho);
-			kIndividuos = populacao.size();
+			
+			
+			populacao = genetic.crossover(pai, mae, populacao, ponto, KGenes);
+			kIndividuos = populacao.size();				
+			
 		}
 	}
 
@@ -46,13 +85,15 @@ public class Operations {
 		Individual mutacao = new Individual(KGenes);
 		int kIndividuos = populacao.size();
 
-		for (int i = 0; i < qntC; i++) {
+		for (int i = 0; i < KMutacao; i++) {
 			num = random.nextInt(kIndividuos);
 			if (num + 1 < populacao.size()) {
 				int[] aux = populacao.get(num + 1).getGenes();
 				mutacao = genetic.mutation(aux, KGenes, KMutacao);
-				populacao.add(num + 1, mutacao);
-				populacao.remove(num + 2);
+				if(mutacao!= null) {
+					populacao.add(num + 1, mutacao);
+					populacao.remove(num + 2);					
+				}
 			}
 
 		}
@@ -60,7 +101,6 @@ public class Operations {
 
 	public ArrayList<Individual> CallSelection(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
 		Genetic sel = new Genetic();
-
 		return sel.select(populacao, KSelecao, Kgenes);
 	}
 
@@ -70,7 +110,7 @@ public class Operations {
 
 		for (int i = 0; i < graph.length; i++) {
 
-			if (CurrentPosition != i && graph[CurrentPosition][i] != 0) {
+			if (CurrentPosition != i && graph[CurrentPosition][i] != -1) {
 				vertices.add(i);
 			}
 		}
@@ -98,7 +138,7 @@ public class Operations {
 
 		int Kpopulacao = populacao.size();
 		List<Integer> verticesAdj = new ArrayList<Integer>();
-		int valorGene, somador = 0, pos, pos2;
+		int  somador = 0, pos;
 		int cont = 0;
 		int valor;
 		
@@ -116,7 +156,7 @@ public class Operations {
 		}
 
 		
-		/* Calcula o esforco olhando se os vertices são adjacentes*/
+		/* Calcula o esforco olhando se os vertices sao adjacentes*/
 		for (int i = 0; i < Kpopulacao; i++) {
 			somador = 0;
 			if(populacao.get(i).getEsforco() != -1) {
@@ -158,21 +198,45 @@ public class Operations {
 		menor = populacao.get(0).getEsforco();
 		for (int i = 1; i < tam; i++) {
 			valor = populacao.get(i).getEsforco();
-			if ((valor <= menor) && (valor !=0)) {
-				if(valor != -1) {
+			if ((valor <= menor) && (valor != -1)) {
 					menor = valor;
 					pos = i;					
 				}
-			}
 		}
 
 		if ((pos == 0) && (populacao.get(pos).getEsforco() == -1)) {
-				System.out.printf("Nenhum Caminho ótimo foi encontrado!!");				
+				System.out.printf("Nenhum Caminho otimo foi encontrado!!");				
 		} else {
-			System.out.printf("Melhor Caminho é: " + Arrays.toString(populacao.get(pos).getGenes()));
-			System.out.printf("\nEsforço: " + populacao.get(pos).getEsforco());
+			System.out.printf("Melhor Caminho : " + Arrays.toString(populacao.get(pos).getGenes()));
+			System.out.printf("\nEsforco: " + populacao.get(pos).getEsforco());
 		}
 
+	}
+	
+	public boolean IndividuoValido(Individual individuo) {
+		int cont = 0;
+		int valor;
+		
+		if(individuo != null) {
+			int Kgenes = individuo.getSize();
+			
+			/* Genes Repetidos - Atribuir -1 no esforco */
+			valor = individuo.getGene(0);
+			for(int i = 1; i < Kgenes; i++) {
+				for (int j = 0; j < Kgenes; j++) {
+					if(valor == individuo.getGene(j)) {
+						cont++;
+					}
+				}				
+				valor = individuo.getGene(i);
+			}
+			if(cont >= 1) {
+				return false;
+			}
+			return true;
+		}
+		
+		return false;
 	}
 
 }

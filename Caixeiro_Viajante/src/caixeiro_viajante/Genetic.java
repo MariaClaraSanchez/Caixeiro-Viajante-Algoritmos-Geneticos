@@ -11,40 +11,66 @@ import java.util.Random;
 
 public class Genetic {
 
-	public Individual crossover(int[] pai, int[] mae, Individual filho, int cutSize) {
+	public ArrayList<Individual> crossover(int[] pai, int[] mae, ArrayList<Individual> populacao, int cutSize, int KGenes) {
 
+		Operations controle = new Operations();
+		Individual filho = new Individual(KGenes);
+		//********************************************
+		/* Não mandar individuo ruim.*/
+		
 		for (int i = 0; i < cutSize; i++) {
 			filho.setGene(i, pai[i]);
 		}
 		for (int i = cutSize; i < filho.getSize(); i++) {
 			filho.setGene(i, mae[i]);
 		}
-
-		return filho;
+		
+		
+		if(controle.IndividuoValido(filho) == true) {
+			populacao.add(filho);
+		}
+		
+		return populacao;
 	}
 
 	public Individual mutation(int[] individuo, int KGenes, int KMutacao) {
 
 		Random random = new Random();
 		Individual aux = new Individual(KGenes);
+		Operations controle = new Operations();
 
 		int size = individuo.length;
-		int mutacao, pos;
-
+		int mutacao1, mutacao2;
+		
 		// System.out.println("Antes da Mutacao:");
 		for (int i = 0; i < size; i++) {
 			aux.setGene(i, individuo[i]);
 		}
 
+		//********************************************
+		/* Apenas trocar a posição dos genes */
+		int p1,p2;
+		
 		for (int i = 0; i < KMutacao; i++) {
-			mutacao = random.nextInt(size);
-			pos = random.nextInt(size);
-			aux.setGene(pos, mutacao);
+			do {
+				p1 = random.nextInt(size);
+				p2 = random.nextInt(size);
+			}while(p1==p2);
+			
+			mutacao1 = individuo[p1];
+			mutacao2= individuo[p2];
+			
+			aux.setGene(p1, mutacao1);
+			aux.setGene(p2, mutacao2);
+			
 		}
+		
+		if(controle.IndividuoValido(aux) == true) {
+			return aux;
+		}
+		
+		return aux = null;
 
-		// System.out.println("Depois da Mutacao:");
-		// aux.printIndividuo();
-		return aux;
 	}
 
 	public ArrayList<Individual> select(ArrayList<Individual> populacao, int KSelecao, int Kgenes) {
@@ -76,18 +102,27 @@ public class Genetic {
 
 			}
 			if (pos == 0) {
-				do {
-					pos = random.nextInt(tamPop);
-					esforco = populacao.get(pos).getEsforco();
-					if (esforco == -1) {
-						indAux = populacao.get(pos);
-						popSelecionada.add(indAux);
-						populacao.remove(pos);
-						indAux = null;
-						cont++;
-					}
-
-				} while (esforco != -1);
+				esforco = populacao.get(pos).getEsforco();
+				if( esforco !=1 ) {
+					indAux = populacao.get(pos);
+					popSelecionada.add(indAux);
+					populacao.remove(pos);
+					indAux = null;
+					cont++;
+				}else {					
+					do {
+						pos = random.nextInt(tamPop);
+						esforco = populacao.get(pos).getEsforco();
+						if (esforco == -1) {
+							indAux = populacao.get(pos);
+							popSelecionada.add(indAux);
+							populacao.remove(pos);
+							indAux = null;
+							cont++;
+						}
+						
+					} while (esforco != -1);
+				}
 			} else {
 				indAux = populacao.get(pos);
 				popSelecionada.add(indAux);
@@ -98,12 +133,11 @@ public class Genetic {
 
 		}
 
-		System.out.println("\nQuantidade de Individuos Selecionados: " + popSelecionada.size());
+		//System.out.println("\nQuantidade de Individuos Selecionados: " + popSelecionada.size());
 		// System.out.println("Individuo Selecionado: " +
 		// Arrays.toString(populacao.get(pos).getGenes()));
 
 		return popSelecionada;
 
 	}
-
 }

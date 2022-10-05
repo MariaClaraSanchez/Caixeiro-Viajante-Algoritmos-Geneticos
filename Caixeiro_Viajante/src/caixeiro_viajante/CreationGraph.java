@@ -28,6 +28,13 @@ public class CreationGraph {
             if (i == 0) {
                 nVertex = Integer.parseInt(line.trim());
                 graph = new int[nVertex][nVertex];
+                
+                for(int k=0; k<nVertex; k++) {
+                	for(int l=0; l<nVertex; l++) {
+                		graph[k][l] = -1;
+                	}
+                }
+                
             } else {
                 int oriVertex = Integer.parseInt(line.split(" ")[0]);
                 String splits[] = line.substring(line.indexOf(" "), line.length()).split(";");
