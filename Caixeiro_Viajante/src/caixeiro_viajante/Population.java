@@ -31,7 +31,8 @@ public class Population {
          }
     }
     public void printEsforco(ArrayList<Individual> populacao) {
-   	 for(int i=0; i<populacao.size();i++){
+     System.out.print("Esforcos: ");
+   	 for(int i=0; i<populacao.size()-1;i++){
             System.out.print(populacao.get(i).getEsforco() + "\t");
         }
    }

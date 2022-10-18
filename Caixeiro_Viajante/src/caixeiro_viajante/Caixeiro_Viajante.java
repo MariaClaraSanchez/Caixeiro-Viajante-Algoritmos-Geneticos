@@ -14,17 +14,8 @@ public class Caixeiro_Viajante {
 		ArrayList<String> text = cGr.ler("./Caixeiro_Viajante/data/Teste3.txt");
 
 		int graphInicial[][] = cGr.graph(text);
-
-		for (int[] graph1 : graphInicial) {
-			for (int j = 0; j < graphInicial.length; j++) {
-				System.out.print(" " + graph1[j] + " ");
-			}
-			System.out.println();
-		}
-
-		
 		// Atribuição da quantidade de caminhos a serem utilizados
-		int graphMax[][] = new int[11][11];
+		int graphMax[][] = new int[19][19];
 		int nVertex = graphMax.length;
 
 		for (int i = 0; i < nVertex; i++) {
@@ -36,13 +27,13 @@ public class Caixeiro_Viajante {
 		
 		/* ************ Declaracao das variaveis ************ */
 
-		int kIndividuos = 10;
+		int kIndividuos = 15000;
 		int KGenes = nVertex;
-		int KVezes = (int) (0.6 * kIndividuos);
-		int qntCruzamento = (int) (0.1 * kIndividuos);
+		int KVezes = (int) (0.4 * kIndividuos);
+		int qntCruzamento = (int) (0.3 * kIndividuos);
+		int KMutacao = (int) (0.1 * kIndividuos);
+		int kSelecao = (int) (0.1 * kIndividuos);
 		int ponto = (int) (0.5 * KGenes);
-		int KMutacao = (int) (0.5 * kIndividuos);
-		int kSelecao = (int) (0.5 * kIndividuos);
 
 		Population controle = new Population();
 		ArrayList<Individual> populacao = new ArrayList<>();
@@ -63,11 +54,10 @@ public class Caixeiro_Viajante {
 		Runtime runtime = Runtime.getRuntime();
 
 		/* ************ Saídas ************ */
-		System.out.println("\n****** Populacao Final: *****");
-		controle.printPopulation(populacao);
-		controle.printEsforco(populacao);
-		System.out.printf("\nTempo de Execucao: %.3f ms%n", (end - start) / 1000d);
-		System.out.println("\nMemoria usada: " + (runtime.totalMemory() - runtime.freeMemory()) / dataSize + "MB");
+		System.out.println("\n************ Saidas ************");
+		System.out.printf("\nTempo de Execucao: %.3f s %n", (end - start) / 1000d);
+		System.out.printf("Tempo de Execucao: %.3f m %n", ((end - start) / 1000)/60d);
+		System.out.println("Memoria usada: " + (runtime.totalMemory() - runtime.freeMemory()) / dataSize + "MB");
 		Operations.printShowPath(populacao);
 	}
 

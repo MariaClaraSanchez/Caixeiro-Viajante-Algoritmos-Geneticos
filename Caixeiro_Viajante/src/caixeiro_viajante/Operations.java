@@ -23,12 +23,12 @@ public class Operations {
 			populacao.add(individuo);
 		}
 
-		System.out.println("****** Populacao Inicial: *****");
-		controle.printPopulation(populacao);
+		/*System.out.println("****** Populacao Inicial: *****");
+		controle.printPopulation(populacao);*/
 
 		for (int i = 0; i < KVezes; i++) {
 
-			System.out.println("********* Geracao: " + i + " **********");
+			// System.out.println("********* Geracao: " + i + " **********");
 
 			/* Cruzamento */
 			CallCrossover(qntCruzamento, ponto, KGenes, populacao);
