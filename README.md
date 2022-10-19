@@ -1,9 +1,18 @@
+
 # Caixeiro Viajante
 
 Caixeiro Viajante é uma profissão antiga, de uma pessoa que vende produtos fora de onde eles são produzidos.
 E o problema do caixeiro viajante consiste em descobrir a rota que torna mínima a viagem total. 
 Essa versão do código foi feita utilizando o algoritmo genético, que é uma técnica de busca utilizada na ciência da computação para achar
 soluções aproximadas em problemas de otimização e busca.
+
+| :placard:  |     |
+| -------------  | --- |
+| :sparkles: Nome        | **Caixeiro Viajante Algoritmo Genético**
+| :label: Tecnologia | Java
+
+<!-- Inserir imagem com a #vitrinedev ao final do link -->
+![](https://via.placeholder.com/1200x500.png?text=imagem+lindona+do+meu+projeto#vitrinedev)
 
 ## :woman_technologist:	 Tecnologia
 Para realização desse trabalho, foi utilizada a linguaguem de programação Java.
