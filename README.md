@@ -7,4 +7,4 @@ soluções aproximadas em problemas de otimização e busca.
 
 ## :woman_technologist:	 Tecnologia
 Para realização desse trabalho, foi utilizada a linguaguem de programação Java.
-<img alt="Java" height="50" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" /> #vitrinedev
+<img alt="Java" height="50" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" /> 
