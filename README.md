@@ -12,7 +12,7 @@ soluções aproximadas em problemas de otimização e busca.
 | :label: Tecnologia | Java
 
 <!-- Inserir imagem com a #vitrinedev ao final do link -->
-![](https://via.placeholder.com/1200x500.png?text=imagem+lindona+do+meu+projeto#vitrinedev)
+![](https://miro.medium.com/max/800/1*UXT2_mLzIqNjeP8QA_7hSQ.gif#vitrinedev)
 
 ## :woman_technologist:	 Tecnologia
 Para realização desse trabalho, foi utilizada a linguaguem de programação Java.
